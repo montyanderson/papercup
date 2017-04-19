@@ -101,7 +101,7 @@ class PaperCup extends EventEmitter {
 		}
 	}
 
-	message(data, recipient, callback = () => {}) {
+	send(data, recipient, callback = () => {}) {
 		if(!(data instanceof Buffer)) {
 			data = Buffer.from(data);
 		}
