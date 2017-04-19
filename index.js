@@ -5,12 +5,18 @@ const packet = require("./lib/packet");
 
 class PaperCup extends EventEmitter {
 	constructor(udpSocket) {
+		if(typeof udpSocket != undefined) {
+			if(!(socket instanceof dgram.Socket)) {
+				throw new TypeError("socket must be an instance of dgram.Socket");
+			}
+		}
+
 		super();
 		this.send = {};
 		this.recv = {};
 	}
 
-	socket(socket) {
+	attach(socket) {
 		if(!(socket instanceof dgram.Socket)) {
 			throw new TypeError("socket must be an instance of dgram.Socket");
 		}
@@ -23,14 +29,24 @@ class PaperCup extends EventEmitter {
 	}
 
 	bind() {
+		this.attach(dgram.createSocket("udp4"));
 		this.socket.bind(...arguments);
 	}
 
-	packet(d, sender) {
-		let p;
-		const { ack, last, id, chunk, data } = p = packet.decode(d);
+	packet(rawPacket, sender) {
+		if(!(rawPacket) instanceof Buffer) {
+			throw new TypeError("rawPacket must be a buffer");
+		}
 
-		console.log(p);
+		if(typeof sender.port != "number") {
+			throw new TypeError("sender.port must be a number");
+		}
+
+		if(typeof sender.address != "string") {
+			throw new TypeError("sender.address must be a string");
+		}
+
+		const { ack, last, id, chunk, data } = packet.decode(rawPacket);
 
 		if(ack) {
 			// send next packet
