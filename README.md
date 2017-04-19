@@ -19,7 +19,7 @@ receiver.bind(5000);
 const PaperCup = require("papercup");
 const sender = new PaperCup();
 
-sender.send("hi there!", { port: 5000 }, () => {
+sender.message("hi there!", { port: 5000 }, () => {
 	console.log("data has been sent and received by the recipient!");
 });
 ```
