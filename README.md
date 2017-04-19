@@ -4,7 +4,7 @@ A reliable communication channel over UDP.
 ## Usage
 
 ``` javascript
-const PaperCup = requrie("papercup");
+const PaperCup = require("papercup");
 const receiver = new PaperCup();
 
 receiver.on("message", msg => {
